@@ -29,6 +29,9 @@ public:
 
 	void removeSelectedObject();
 
+	void aumentarObjetoSelecionado();
+	void reduzirObjetoSelecionado();
+
 private:
 	int selectedObjectIndex;
 };

@@ -15,7 +15,7 @@ GLint m_mouseX, m_mouseY;
 GLint lastX = 400, lastY = 300;
 GLfloat yaw;
 GLfloat pitch;
-Camera camera(glm::vec3(0, 1, -10), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.01f, 1000.0f);
+Camera camera(glm::vec3(0, 3, -10), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.01f, 1000.0f);
 
 void mouse_callback(double xpos, double ypos);
 
@@ -152,7 +152,9 @@ int main(int argc, char** argv)
 	float counter = 0.0f;
 	while (isRunning)
 	{
-
+		GLuint currentFrame = SDL_GetTicks();
+		deltaTime = (currentFrame - lastFrame) / 1000;
+		lastFrame = currentFrame;
 
 		GLfloat xoffset = m_mouseX - lastX;
 		GLfloat yoffset = lastY - m_mouseY; // Reversed since y-coordinates range from bottom to top
@@ -175,12 +177,15 @@ int main(int argc, char** argv)
 				case SDLK_w:
 					camera.setPosition(glm::vec3(camera.position().x, camera.position().y, camera.position().z + (camera.getSpeed() * deltaTime)));
 					break;
+
 				case SDLK_s:
 					camera.setPosition(glm::vec3(camera.position().x, camera.position().y, camera.position().z - (camera.getSpeed() * deltaTime)));
 					break;
+
 				case SDLK_a:
 					camera.setPosition(glm::vec3(camera.position().x + (camera.getSpeed() * deltaTime), camera.position().y, camera.position().z));
 					break;
+
 				case SDLK_d:
 					camera.setPosition(glm::vec3(camera.position().x - (camera.getSpeed() * deltaTime), camera.position().y, camera.position().z));
 					break;
@@ -205,7 +210,12 @@ int main(int argc, char** argv)
 
 				case SDLK_KP_PLUS:
 				case SDLK_PLUS:
-					
+					manager.aumentarObjetoSelecionado();
+					break;
+
+				case SDLK_KP_MINUS:
+				case SDLK_MINUS:
+					manager.reduzirObjetoSelecionado();
 					break;
 
 				case SDLK_LEFT:
@@ -240,13 +250,14 @@ int main(int argc, char** argv)
 					camera.setForward(front);
 					break;
 
-
 				case SDLK_ESCAPE:
 					isRunning = false;
 					break;
+
 				default:
 					break;
 				}
+
 				break;
 
 			case SDL_KEYUP:
@@ -269,17 +280,11 @@ int main(int argc, char** argv)
 
 		shader.Bind();
 
-		glm::vec3 lightPos(0.0, 3.0, 0.0);
-
-		//Material
-		//glUniform3f(glGetUniformLocation(shader.Program(), "material.ambient"), 1.0, 0.5, 0.31);
-		//glUniform3f(glGetUniformLocation(shader.Program(), "material.diffuse"), 1.0, 0.5, 0.31);
-		//glUniform3f(glGetUniformLocation(shader.Program(), "material.specular"), 0.5, 0.5, 0.5);
-		//glUniform1f(glGetUniformLocation(shader.Program(), "material.shininess"), 0.5);		
+		glm::vec3 lightPos(1.0, 1.0, 1.0);
 
 		//Light
 		glUniform3f(glGetUniformLocation(shader.Program(), "light.position"), lightPos.x, lightPos.y, lightPos.z);
-		glUniform3f(glGetUniformLocation(shader.Program(), "light.ambient"), 0.8, 0.8, 0.8);
+		glUniform3f(glGetUniformLocation(shader.Program(), "light.ambient"), 0.9, 0.9, 0.9);
 		glUniform3f(glGetUniformLocation(shader.Program(), "light.diffuse"), 0.5, 0.5, 0.5);
 		glUniform3f(glGetUniformLocation(shader.Program(), "light.specular"), 1.0, 1.0, 1.0);
 

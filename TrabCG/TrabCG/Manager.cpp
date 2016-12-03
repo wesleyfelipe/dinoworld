@@ -64,3 +64,15 @@ void Manager::removeSelectedObject() {
 	}
 }
 
+void Manager::aumentarObjetoSelecionado() {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		this->ObjectList.at(this->selectedObjectIndex).aumentar();
+	}
+}
+
+void Manager::reduzirObjetoSelecionado() {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		this->ObjectList.at(this->selectedObjectIndex).reduzir();
+	}
+}
+

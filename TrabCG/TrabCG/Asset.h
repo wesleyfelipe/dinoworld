@@ -32,6 +32,7 @@ public:
 	void Draw(const Camera& camera);
 
 	void aumentar();
+	void reduzir();
 
 protected:
 private:
@@ -40,6 +41,8 @@ private:
 	Texture* m_diffuse;
 	Texture* m_specular;
 	Transform m_transform;
+
+	void alterarEscala(float a);
 };
 
 #endif

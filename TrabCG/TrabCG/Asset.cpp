@@ -38,14 +38,20 @@ void Asset::SetScale(glm::vec3 scale)
 	this->m_transform.SetScale(scale);
 }
 
+void Asset::alterarEscala(float a) {
+	float x = this->m_transform.GetScale().x + a;
+	float y = this->m_transform.GetScale().y + a;
+	float z = this->m_transform.GetScale().z + a;
+
+	this->SetScale(glm::vec3(x, y, z));
+}
+
 void Asset::aumentar() {
-	float x = this->m_transform.GetScale().x + 1.0;
-	float y = this->m_transform.GetScale().y + 1.0;
-	float z = this->m_transform.GetScale().z + 1.0;
+	this->alterarEscala(0.1);
+}
 
-	printf("%f %f %f - ", x, y, z);
-
-	SetScale(glm::vec3(x, y, z));
+void Asset::reduzir() {
+	this->alterarEscala(-0.1);
 }
 
 void Asset::SetMaterial(std::string diffPath, std::string specPath)
