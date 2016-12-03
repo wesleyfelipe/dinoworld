@@ -77,6 +77,21 @@ void Asset::moverParaTras() {
 	this->mover(0.0, 0.0, 0.2);
 }
 
+void Asset::rotacionar(float a) {
+	float x = this->m_transform.GetRot().x;
+	float y = this->m_transform.GetRot().y + a;
+	float z = this->m_transform.GetRot().z;
+	this->SetRot(glm::vec3(x, y, z));
+}
+
+void Asset::rotacionarDireita() {
+	this->rotacionar(0.2);
+}
+
+void Asset::rotacionarEsquerda() {
+	this->rotacionar(-0.2);
+}
+
 void Asset::SetMaterial(std::string diffPath, std::string specPath)
 {
 	m_diffuse = new Texture(diffPath);

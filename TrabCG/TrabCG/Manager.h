@@ -35,6 +35,8 @@ public:
 	void moverObjetoSelecionadoEsquerda();
 	void moverObjetoSelecionadoParaFrente();
 	void moverObjetoSelecionadoParaTras();
+	void rotacionarObjetoSelecionadoParaDireita();
+	void rotacionarObjetoSelecionadoParaEsquerda();
 
 private:
 	int selectedObjectIndex;

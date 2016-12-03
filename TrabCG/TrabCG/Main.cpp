@@ -224,6 +224,14 @@ int main(int argc, char** argv)
 					manager.moverObjetoSelecionadoDireita();
 					break;
 
+				case SDLK_o:
+					manager.rotacionarObjetoSelecionadoParaDireita();
+					break;
+
+				case SDLK_u:
+					manager.rotacionarObjetoSelecionadoParaEsquerda();
+					break;
+
 				case SDLK_KP_PLUS:
 				case SDLK_PLUS:
 					manager.aumentarObjetoSelecionado();

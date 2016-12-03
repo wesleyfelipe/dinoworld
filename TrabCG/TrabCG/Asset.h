@@ -37,6 +37,8 @@ public:
 	void moverEsquerda();
 	void moverParaFrente();
 	void moverParaTras();
+	void rotacionarDireita();
+	void rotacionarEsquerda();
 
 protected:
 private:
@@ -48,6 +50,7 @@ private:
 
 	void alterarEscala(float a);
 	void mover(float x1, float x2, float x3);
+	void rotacionar(float a);
 };
 
 #endif

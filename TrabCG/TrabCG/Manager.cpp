@@ -100,3 +100,15 @@ void Manager::moverObjetoSelecionadoParaTras() {
 	}
 }
 
+void Manager::rotacionarObjetoSelecionadoParaDireita() {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		this->ObjectList.at(this->selectedObjectIndex).rotacionarDireita();
+	}
+}
+
+void Manager::rotacionarObjetoSelecionadoParaEsquerda() {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		this->ObjectList.at(this->selectedObjectIndex).rotacionarEsquerda();
+	}
+}
+
