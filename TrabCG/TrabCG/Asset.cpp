@@ -54,6 +54,29 @@ void Asset::reduzir() {
 	this->alterarEscala(-0.1);
 }
 
+void Asset::mover(float x1, float y1, float z1) {
+	float x = this->m_transform.GetPos().x + x1;
+	float y = this->m_transform.GetPos().y + y1;
+	float z = this->m_transform.GetPos().z + z1;
+	this->SetPos(glm::vec3(x, y, z));
+}
+
+void Asset::moverDireita() {
+	this->mover(-0.2, 0.0, 0.0);
+}
+
+void Asset::moverEsquerda() {
+	this->mover(0.2, 0.0, 0.0);
+}
+
+void Asset::moverParaFrente() {
+	this->mover(0.0, 0.0, -0.2);
+}
+
+void Asset::moverParaTras() {
+	this->mover(0.0, 0.0, 0.2);
+}
+
 void Asset::SetMaterial(std::string diffPath, std::string specPath)
 {
 	m_diffuse = new Texture(diffPath);

@@ -31,6 +31,10 @@ public:
 
 	void aumentarObjetoSelecionado();
 	void reduzirObjetoSelecionado();
+	void moverObjetoSelecionadoDireita();
+	void moverObjetoSelecionadoEsquerda();
+	void moverObjetoSelecionadoParaFrente();
+	void moverObjetoSelecionadoParaTras();
 
 private:
 	int selectedObjectIndex;

@@ -208,6 +208,22 @@ int main(int argc, char** argv)
 					manager.removeSelectedObject();
 					break;
 
+				case SDLK_i:
+					manager.moverObjetoSelecionadoParaTras();
+					break;
+
+				case SDLK_k:
+					manager.moverObjetoSelecionadoParaFrente();
+					break;
+
+				case SDLK_j:
+					manager.moverObjetoSelecionadoEsquerda();
+					break;
+
+				case SDLK_l:
+					manager.moverObjetoSelecionadoDireita();
+					break;
+
 				case SDLK_KP_PLUS:
 				case SDLK_PLUS:
 					manager.aumentarObjetoSelecionado();

@@ -33,6 +33,10 @@ public:
 
 	void aumentar();
 	void reduzir();
+	void moverDireita();
+	void moverEsquerda();
+	void moverParaFrente();
+	void moverParaTras();
 
 protected:
 private:
@@ -43,6 +47,7 @@ private:
 	Transform m_transform;
 
 	void alterarEscala(float a);
+	void mover(float x1, float x2, float x3);
 };
 
 #endif

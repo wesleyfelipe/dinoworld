@@ -76,3 +76,27 @@ void Manager::reduzirObjetoSelecionado() {
 	}
 }
 
+void Manager::moverObjetoSelecionadoDireita() {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		this->ObjectList.at(this->selectedObjectIndex).moverDireita();
+	}
+}
+
+void Manager::moverObjetoSelecionadoEsquerda() {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		this->ObjectList.at(this->selectedObjectIndex).moverEsquerda();
+	}
+}
+
+void Manager::moverObjetoSelecionadoParaFrente() {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		this->ObjectList.at(this->selectedObjectIndex).moverParaFrente();
+	}
+}
+
+void Manager::moverObjetoSelecionadoParaTras() {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		this->ObjectList.at(this->selectedObjectIndex).moverParaTras();
+	}
+}
+
