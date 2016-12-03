@@ -75,8 +75,7 @@ int main(int argc, char** argv)
 	Shader shader("../res/basicShader");
 
 	Manager manager;
-	manager.setSelectedObject(1);
-	
+
 	initModelos(manager, &shader);
 
 	Asset chao = modelos.at(modelos_enum::chao);
@@ -153,9 +152,6 @@ int main(int argc, char** argv)
 	float counter = 0.0f;
 	while (isRunning)
 	{
-		GLuint currentFrame = SDL_GetTicks();
-		deltaTime = (currentFrame - lastFrame) / 1000;
-		lastFrame = currentFrame;
 
 
 		GLfloat xoffset = m_mouseX - lastX;
@@ -171,6 +167,7 @@ int main(int argc, char** argv)
 
 		while (SDL_PollEvent(&e))
 		{
+			int newIndex;
 			switch (e.type) {
 			case SDL_KEYDOWN:
 				//Key Press
@@ -188,26 +185,27 @@ int main(int argc, char** argv)
 					camera.setPosition(glm::vec3(camera.position().x - (camera.getSpeed() * deltaTime), camera.position().y, camera.position().z));
 					break;
 
-				case SDLK_m:
-					if (manager.getSelectedObject() == -1) 
-						manager.setSelectedObject(1);
-					 else if (manager.getSelectedObject() == manager.ObjectList.size() -1)
-						manager.setSelectedObject(1);
+				case SDLK_n:
+					newIndex = manager.getSelectedObjectIndex() + 1;
+					if (newIndex < 1) 
+						manager.setSelectedObjectIndex(1);
+					 else if (newIndex >= manager.ObjectList.size())
+						manager.setSelectedObjectIndex(1);
 					else
-						manager.setSelectedObject(manager.getSelectedObject() + 1);
+						manager.setSelectedObjectIndex(newIndex);
 					break;
 
 				case SDLK_b:
-					manager.setSelectedObject(-1);
+					manager.setSelectedObjectIndex(-1);
 					break;
 
-				case SDLK_n:
-					if (manager.getSelectedObject() == -1)
-						manager.setSelectedObject(1);
-					else if (manager.getSelectedObject() == 1)
-						manager.setSelectedObject(manager.ObjectList.size() -1);
-					else
-						manager.setSelectedObject(manager.getSelectedObject() - 1);
+				case SDLK_x:
+					manager.removeSelectedObject();
+					break;
+
+				case SDLK_KP_PLUS:
+				case SDLK_PLUS:
+					
 					break;
 
 				case SDLK_LEFT:
@@ -287,7 +285,7 @@ int main(int argc, char** argv)
 
 		for (int i = 0; i < manager.ObjectList.size(); i++) {
 			Asset object = manager.ObjectList.at(i);
-			glUniform1d(glGetUniformLocation(shader.Program(), "selected"), i == manager.getSelectedObject());
+			glUniform1d(glGetUniformLocation(shader.Program(), "selected"), i == manager.getSelectedObjectIndex());
 			object.Draw(camera);
 		}
 

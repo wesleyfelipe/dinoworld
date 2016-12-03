@@ -5,6 +5,7 @@
 Manager::Manager()
 {
 	this->resourcePath = "../res/";
+	this->selectedObjectIndex = - 1;
 }
 
 
@@ -44,10 +45,22 @@ void Manager::DrawObjects(const Camera& camera)
 	}
 }
 
-void Manager::setSelectedObject(int selectedObject) {
-	this->selectedObject = selectedObject;
+void Manager::setSelectedObjectIndex(int selectedObjectIndex) {
+	this->selectedObjectIndex = selectedObjectIndex;
 }
 
-int Manager::getSelectedObject() {
-	return this->selectedObject;
+int Manager::getSelectedObjectIndex() {
+	return this->selectedObjectIndex;
 }
+
+Asset Manager::getSelectedObject() {
+	return this->ObjectList.at(this->selectedObjectIndex);
+}
+
+void Manager::removeSelectedObject() {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		this->ObjectList.erase(this->ObjectList.begin() + this->getSelectedObjectIndex());
+		this->selectedObjectIndex = -1;
+	}
+}
+

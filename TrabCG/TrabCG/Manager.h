@@ -22,11 +22,15 @@ public:
 
 	void DrawObjects(const Camera& camera);
 
-	int getSelectedObject();
-	void setSelectedObject(int selectedObject);
+	int getSelectedObjectIndex();
+	void setSelectedObjectIndex(int selectedObjectIndex);
+
+	Asset getSelectedObject();
+
+	void removeSelectedObject();
 
 private:
-	int selectedObject;
+	int selectedObjectIndex;
 };
 
 #endif

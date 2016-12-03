@@ -31,6 +31,8 @@ public:
 
 	void Draw(const Camera& camera);
 
+	void aumentar();
+
 protected:
 private:
 	Mesh* m_mesh;
