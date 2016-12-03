@@ -74,9 +74,8 @@ int main(int argc, char** argv)
 
 	Shader shader("../res/basicShader");
 
-	Shader selectionShader("../res/selectionShader");
-
 	Manager manager;
+	manager.setSelectedObject(1);
 	
 	initModelos(manager, &shader);
 
@@ -85,7 +84,7 @@ int main(int argc, char** argv)
 
 	Asset brachiosaurus = modelos.at(modelos_enum::brachiosaurus);
 	brachiosaurus.SetPos(glm::vec3(0, 0.1, 0));
-	brachiosaurus.SetShader(&selectionShader);
+	brachiosaurus.SetShader(&shader);
 	manager.ObjectList.push_back(brachiosaurus);
 
 	Asset triceratops = modelos.at(modelos_enum::triceratops);
@@ -189,6 +188,28 @@ int main(int argc, char** argv)
 					camera.setPosition(glm::vec3(camera.position().x - (camera.getSpeed() * deltaTime), camera.position().y, camera.position().z));
 					break;
 
+				case SDLK_m:
+					if (manager.getSelectedObject() == -1) 
+						manager.setSelectedObject(1);
+					 else if (manager.getSelectedObject() == manager.ObjectList.size() -1)
+						manager.setSelectedObject(1);
+					else
+						manager.setSelectedObject(manager.getSelectedObject() + 1);
+					break;
+
+				case SDLK_b:
+					manager.setSelectedObject(-1);
+					break;
+
+				case SDLK_n:
+					if (manager.getSelectedObject() == -1)
+						manager.setSelectedObject(1);
+					else if (manager.getSelectedObject() == 1)
+						manager.setSelectedObject(manager.ObjectList.size() -1);
+					else
+						manager.setSelectedObject(manager.getSelectedObject() - 1);
+					break;
+
 				case SDLK_LEFT:
 					front.x = camera.foward().x + 0.05;
 					front.y = 0;
@@ -238,10 +259,6 @@ int main(int argc, char** argv)
 				SDL_GetMouseState(&m_mouseX, &m_mouseY);
 				mouse_callback(m_mouseX, m_mouseY);
 				break;
-			case SDL_MOUSEBUTTONDOWN:
-				SDL_GetMouseState(&m_mouseX, &m_mouseY);
-				//TODO
-				break;
 			case SDL_QUIT:
 				isRunning = false;
 				break;
@@ -268,7 +285,11 @@ int main(int argc, char** argv)
 		glUniform3f(glGetUniformLocation(shader.Program(), "light.diffuse"), 0.5, 0.5, 0.5);
 		glUniform3f(glGetUniformLocation(shader.Program(), "light.specular"), 1.0, 1.0, 1.0);
 
-		manager.DrawObjects(camera);
+		for (int i = 0; i < manager.ObjectList.size(); i++) {
+			Asset object = manager.ObjectList.at(i);
+			glUniform1d(glGetUniformLocation(shader.Program(), "selected"), i == manager.getSelectedObject());
+			object.Draw(camera);
+		}
 
 		display.SwapBuffers();
 		SDL_Delay(1);

@@ -43,3 +43,11 @@ void Manager::DrawObjects(const Camera& camera)
 		object.Draw(camera);
 	}
 }
+
+void Manager::setSelectedObject(int selectedObject) {
+	this->selectedObject = selectedObject;
+}
+
+int Manager::getSelectedObject() {
+	return this->selectedObject;
+}

@@ -21,6 +21,12 @@ public:
 	Asset BuildObject(std::string meshPath, std::string diffPath, std::string specPath, Shader* shader);
 
 	void DrawObjects(const Camera& camera);
+
+	int getSelectedObject();
+	void setSelectedObject(int selectedObject);
+
+private:
+	int selectedObject;
 };
 
 #endif

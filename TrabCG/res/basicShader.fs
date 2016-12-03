@@ -20,6 +20,7 @@ in vec3 normal;
 in mat4 transform;
 in mat4 model;
 
+uniform bool selected;
 uniform Material material;
 uniform Light light;
 
@@ -41,6 +42,11 @@ void main()
 
 	float diffuseCoefficient = max(0.0, dot(normal, surfaceToLight));
 	vec3 diffuse = diffuseCoefficient * surfaceColor.rgb;
+	
+	if(selected){
+		diffuse = diffuse * vec3(1,0,0);
+	}
+	
 	
 	color = vec4(diffuse, 1.0);
 }
