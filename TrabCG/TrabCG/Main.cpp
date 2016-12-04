@@ -27,7 +27,9 @@ enum modelos_enum {
 	trex = 3, 
 	spinosaurus = 4, 
 	ankylosaurus = 5, 
-	ouranosaurus = 6
+	ouranosaurus = 6,
+	albertossaurus = 7,
+	gallimimus = 8
 };
 std::map<int, Asset> modelos;
 std::map<int, Asset>::iterator modeloSelecionadoIt;
@@ -68,6 +70,14 @@ Asset initOuranosaurusModelo(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::ouranosaurus, manager, shader, "../res/ouranosaurus/oran.obj", "../res/ouranosaurus/ouran.png", glm::vec3(-1.5, 3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
+Asset initAlbertosaurus(Manager manager, Shader *shader) {
+	return initModel(modelos_enum::albertossaurus, manager, shader, "../res/albertosaurus/albert.obj", "../res/albertosaurus/am.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
+}
+
+Asset initGallimimus(Manager manager, Shader *shader) {
+	return initModel(modelos_enum::gallimimus, manager, shader, "../res/gallimimus/galli.obj", "../res/gallimimus/gali.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
+}
+
 void initModelos(Manager manager, Shader *shader) {
 	modelos[modelos_enum::chao] = initChaoModelo(manager, shader);
 	modelos[modelos_enum::brachiosaurus] = initBrachiosaurusModelo(manager, shader);
@@ -76,6 +86,9 @@ void initModelos(Manager manager, Shader *shader) {
 	modelos[modelos_enum::spinosaurus] = initSpinosaurusModelo(manager, shader);
 	modelos[modelos_enum::ankylosaurus] = initAnkylosaurusModelo(manager, shader);
 	modelos[modelos_enum::ouranosaurus] = initOuranosaurusModelo(manager, shader);
+	modelos[modelos_enum::albertossaurus] = initAlbertosaurus(manager, shader);
+	modelos[modelos_enum::gallimimus] = initGallimimus(manager, shader);
+
 	modeloSelecionadoIt = modelos.begin();
 	modeloSelecionadoIt++;
 }
@@ -134,74 +147,6 @@ int main(int argc, char** argv) {
 
 	initModelos(manager, &shader);
 	manager = initCenaFromFile("../res/cena.txt", manager, &shader);
-
-	/** Asset chao = modelos.at(modelos_enum::chao);
-	manager.ObjectList.push_back(chao);
-
-	Asset brachiosaurus = modelos.at(modelos_enum::brachiosaurus);
-	brachiosaurus.SetPos(glm::vec3(0, 0.1, 0));
-	brachiosaurus.SetShader(&shader);
-	manager.ObjectList.push_back(brachiosaurus);
-
-	Asset triceratops = modelos.at(modelos_enum::triceratops);
-	triceratops.SetPos(glm::vec3(5, 0.1, 2));
-	manager.ObjectList.push_back(triceratops);
-
-	Asset trex = modelos.at(modelos_enum::trex);
-	trex.SetPos(glm::vec3(6, 0.1, 3));
-	manager.ObjectList.push_back(trex);
-
-	Asset spinosaurus = modelos.at(modelos_enum::spinosaurus);
-	spinosaurus.SetPos(glm::vec3(2, 0.1, 6));
-	manager.ObjectList.push_back(spinosaurus);
-
-	Asset ankylosaurus = modelos.at(modelos_enum::ankylosaurus);
-	ankylosaurus.SetPos(glm::vec3(2, 0.1, 1));
-	manager.ObjectList.push_back(ankylosaurus);
-
-	Asset ouranosaurus = modelos.at(modelos_enum::ouranosaurus);
-	ouranosaurus.SetPos(glm::vec3(-2, 0.1, 1));
-	manager.ObjectList.push_back(ouranosaurus); */
-
-
-	//manager.CreateObject("../res/ouranosaurus/oran.obj", "../res/ouranosaurus/ouran.png", "../res/ouranosaurus/ouran.png", &shader);
-	//manager.ObjectList[1].SetPos(glm::vec3(0, 0, 0));
-	//manager.ObjectList[1].SetRot(glm::vec3(-1.5, 3, 0));
-	//manager.ObjectList[1].SetScale(glm::vec3(0.5, 0.5, 0.5));
-
-	//manager.CreateObject("../res/carcar.obj", "../res/carchar.png", "../res/carchar.png", &shader);
-	//manager.ObjectList[1].SetPos(glm::vec3(5, 0.1, 2));
-	//manager.ObjectList[1].SetRot(glm::vec3(-1.5, -3, 0));
-	//manager.ObjectList[1].SetScale(glm::vec3(0.5, 0.5, 0.5));
-
-	//manager.CreateObject("../res/DIlo.obj", "../res/dilo.png", "../res/dilo.png", &shader);
-	//manager.ObjectList[1].SetPos(glm::vec3(5, 0.1, 2));
-	//manager.ObjectList[1].SetRot(glm::vec3(-1.5, -3, 0));
-	//manager.ObjectList[1].SetScale(glm::vec3(0.5, 0.5, 0.5));
-
-	//manager.CreateObject("../res/cama.obj", "../res/cama.png", "../res/cama.png", &shader);
-	//manager.ObjectList[1].SetPos(glm::vec3(5, 0.1, 2));
-	//manager.ObjectList[1].SetRot(glm::vec3(-1.5, -3, 0));
-	//manager.ObjectList[1].SetScale(glm::vec3(0.5, 0.5, 0.5));
-
-	//manager.CreateObject("../res/albertosaurus/albert.obj", "../res/albertosaurus/am.png", "../res/albertosaurus/am.png", &shader);
-	//manager.ObjectList[1].SetPos(glm::vec3(5, 0.1, 2));
-	//manager.ObjectList[1].SetRot(glm::vec3(-1.5, -3, 0));
-	//manager.ObjectList[1].SetScale(glm::vec3(0.5, 0.5, 0.5));
-
-	//manager.CreateObject("../res/gallimimus/galli.obj", "../res/gallimimus/gali.png", "../res/gallimimus/gali.png", &shader);
-	//manager.ObjectList[1].SetPos(glm::vec3(5, 0.1, 2));
-	//manager.ObjectList[1].SetRot(glm::vec3(-1.5, -3, 0));
-	//manager.ObjectList[1].SetScale(glm::vec3(0.5, 0.5, 0.5));
-
-	//manager.CreateObject("../res/pterand/PTERANDN.obj", "../res/pterand/PTERANO.png", "../res/pterand/PTERANO.png", &shader);
-	//manager.ObjectList[1].SetPos(glm::vec3(5, 1, 2));
-	//manager.ObjectList[1].SetRot(glm::vec3(1.5, -3, 0));
-	//manager.ObjectList[1].SetScale(glm::vec3(0.5, 0.5, 0.5));
-
-	//manager.CreateObject("../res/Palma 001.obj", "../res/Palma 001.png", "../res/Palma 001.png", &shader);
-	//manager.ObjectList[3].SetPos(glm::vec3(3, 0.1, 2));
-	//manager.ObjectList[3].SetScale(glm::vec3(0.05, 0.05, 0.05));
 
 	SDL_Event e;
 
