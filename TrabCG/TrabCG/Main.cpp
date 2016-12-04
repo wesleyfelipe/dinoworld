@@ -32,39 +32,40 @@ enum modelos_enum {
 std::map<int, Asset> modelos;
 std::map<int, Asset>::iterator modeloSelecionadoIt;
 
-Asset initModel(Manager manager, Shader *shader, std::string objPath, std::string texturePath, glm::vec3 rotation, glm::vec3 scale) {
+Asset initModel(modelos_enum idModelo, Manager manager, Shader *shader, std::string objPath, std::string texturePath, glm::vec3 rotation, glm::vec3 scale) {
 	Asset temp = manager.BuildObject(objPath, texturePath, texturePath, shader);
 	temp.SetRot(rotation);
 	temp.SetScale(scale);
+	temp.id = idModelo;
 	return temp;
 }
 
 Asset initChaoModelo(Manager manager, Shader *shader) {
-	return initModel(manager, shader, "../res/chao/plane.obj", "../res/chao/grass.jpg", glm::vec3(0,0,0), glm::vec3(10, 1, 10));
+	return initModel(modelos_enum::chao, manager, shader, "../res/chao/plane.obj", "../res/chao/grass.jpg", glm::vec3(0,0,0), glm::vec3(10, 1, 10));
 }
 
 Asset initBrachiosaurusModelo(Manager manager, Shader *shader) {
-	return initModel(manager, shader, "../res/brachiosaurus/brac.obj", "../res/brachiosaurus/brach.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
+	return initModel(modelos_enum::brachiosaurus, manager, shader, "../res/brachiosaurus/brac.obj", "../res/brachiosaurus/brach.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
 Asset initTriceratopsModelo(Manager manager, Shader *shader) {
-	return initModel(manager, shader, "../res/triceratops/trike.obj", "../res/triceratops/trike.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
+	return initModel(modelos_enum::triceratops, manager, shader, "../res/triceratops/trike.obj", "../res/triceratops/trike.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
 Asset initTrexModelo(Manager manager, Shader *shader) {
-	return initModel(manager, shader, "../res/trex/trex.obj", "../res/trex/Trex.png", glm::vec3(0, 3, 0), glm::vec3(0.5, 0.5, 0.5));
+	return initModel(modelos_enum::trex, manager, shader, "../res/trex/trex.obj", "../res/trex/Trex.png", glm::vec3(0, 3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
 Asset initSpinosaurusModelo(Manager manager, Shader *shader) {
-	return initModel(manager, shader, "../res/spinosaurus/spino.obj", "../res/spinosaurus/Spino.png", glm::vec3(0, 3, 0), glm::vec3(0.5, 0.5, 0.5));
+	return initModel(modelos_enum::spinosaurus, manager, shader, "../res/spinosaurus/spino.obj", "../res/spinosaurus/Spino.png", glm::vec3(0, 3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
 Asset initAnkylosaurusModelo(Manager manager, Shader *shader) {
-	return initModel(manager, shader, "../res/ankylosaurus/anky.obj", "../res/ankylosaurus/Anky.png", glm::vec3(0, 3, 0), glm::vec3(0.5, 0.5, 0.5));
+	return initModel(modelos_enum::ankylosaurus, manager, shader, "../res/ankylosaurus/anky.obj", "../res/ankylosaurus/Anky.png", glm::vec3(0, 3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
 Asset initOuranosaurusModelo(Manager manager, Shader *shader) {
-	return initModel(manager, shader, "../res/ouranosaurus/oran.obj", "../res/ouranosaurus/ouran.png", glm::vec3(-1.5, 3, 0), glm::vec3(0.5, 0.5, 0.5));
+	return initModel(modelos_enum::ouranosaurus, manager, shader, "../res/ouranosaurus/oran.obj", "../res/ouranosaurus/ouran.png", glm::vec3(-1.5, 3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
 void initModelos(Manager manager, Shader *shader) {
@@ -91,14 +92,17 @@ Manager initCenaFromFile(std::string filePath, Manager manager, Shader *shader) 
 			getline(file, line);
 			vector<std::string> tokens = split(line, ' ');
 
-			Asset tempModel = modelos.at(atoi(tokens[0].c_str()));
+			if (tokens.size() == 10) {
 
-			tempModel.SetPos(glm::vec3(atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())));
-			tempModel.SetRot(glm::vec3(atof(tokens[4].c_str()), atof(tokens[5].c_str()), atof(tokens[6].c_str())));
-			tempModel.SetScale(glm::vec3(atof(tokens[7].c_str()), atof(tokens[8].c_str()), atof(tokens[9].c_str())));
+				Asset tempModel = modelos.at(atoi(tokens[0].c_str()));
 
-			tempModel.SetShader(shader);
-			manager.ObjectList.push_back(tempModel);
+				tempModel.SetPos(glm::vec3(atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())));
+				tempModel.SetRot(glm::vec3(atof(tokens[4].c_str()), atof(tokens[5].c_str()), atof(tokens[6].c_str())));
+				tempModel.SetScale(glm::vec3(atof(tokens[7].c_str()), atof(tokens[8].c_str()), atof(tokens[9].c_str())));
+
+				tempModel.SetShader(shader);
+				manager.ObjectList.push_back(tempModel);
+			}
 
 		}
 
@@ -108,8 +112,15 @@ Manager initCenaFromFile(std::string filePath, Manager manager, Shader *shader) 
 	return manager;
 }
 
-void salvarCena(Maanger manager) {
-
+void salvarCena(Manager manager) {
+	ofstream file;
+	file.open("../res/cena.txt");
+	for each (Asset object in manager.ObjectList){
+		file << object.id << " " << object.GetPos().x << " " << object.GetPos().y << " " << object.GetPos().z << " ";
+		file << object.getRot().x << " " << object.getRot().y << " " << object.getRot().z << " ";
+		file << object.getScale().x << " " << object.getScale().y << " " << object.getScale().z << "\n";
+	}
+	file.close();
 }
 
 #undef main
