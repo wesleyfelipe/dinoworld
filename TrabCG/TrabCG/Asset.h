@@ -22,6 +22,10 @@ public:
 	void SetMesh(const std::string& meshPath);
 	void SetShader(Shader* shader);
 
+	glm::vec3 GetPos();
+	glm::vec3 getRot();
+	glm::vec3 getScale();
+
 	//Transform Functions
 	void SetPos(glm::vec3 pos);
 	void SetRot(glm::vec3 rot);

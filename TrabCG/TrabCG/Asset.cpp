@@ -33,6 +33,18 @@ void Asset::SetRot(glm::vec3 rot)
 	this->m_transform.SetRot(rot);
 }
 
+glm::vec3 Asset::GetPos() {
+	return this->m_transform.GetPos();
+}
+
+glm::vec3 Asset::getRot() {
+	return this->m_transform.GetRot();
+}
+
+glm::vec3 Asset::getScale() {
+	return this->m_transform.GetScale();
+}
+
 void Asset::SetScale(glm::vec3 scale)
 {
 	this->m_transform.SetScale(scale);

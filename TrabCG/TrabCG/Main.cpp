@@ -21,6 +21,7 @@ void mouse_callback(double xpos, double ypos);
 
 enum modelos_enum { chao, brachiosaurus, triceratops, trex, spinosaurus, ankylosaurus, ouranosaurus};
 std::map<modelos_enum, Asset> modelos;
+std::map<modelos_enum, Asset>::iterator modeloSelecionadoIt;
 
 Asset initModel(Manager manager, Shader *shader, std::string objPath, std::string texturePath, glm::vec3 rotation, glm::vec3 scale) {
 	Asset temp = manager.BuildObject(objPath, texturePath, texturePath, shader);
@@ -65,6 +66,8 @@ void initModelos(Manager manager, Shader *shader) {
 	modelos[modelos_enum::spinosaurus] = initSpinosaurusModelo(manager, shader);
 	modelos[modelos_enum::ankylosaurus] = initAnkylosaurusModelo(manager, shader);
 	modelos[modelos_enum::ouranosaurus] = initOuranosaurusModelo(manager, shader);
+	modeloSelecionadoIt = modelos.begin();
+	modeloSelecionadoIt++;
 }
 
 #undef main
@@ -193,6 +196,7 @@ int main(int argc, char** argv)
 
 				case SDLK_n:
 					newIndex = manager.getSelectedObjectIndex() + 1;
+					modeloSelecionadoIt = modelos.begin()++;
 					if (newIndex < 1) 
 						manager.setSelectedObjectIndex(1);
 					 else if (newIndex >= manager.ObjectList.size())
@@ -207,6 +211,18 @@ int main(int argc, char** argv)
 					objectToInclude.SetShader(&shader);
 					manager.ObjectList.push_back(objectToInclude);
 					manager.setSelectedObjectIndex(manager.ObjectList.size() - 1);
+					break;
+
+				case SDLK_SPACE:
+					if (std::next(modeloSelecionadoIt) == modelos.end()) {
+						modeloSelecionadoIt = modelos.begin();
+						modeloSelecionadoIt++;
+					}
+					else {
+						modeloSelecionadoIt++;
+					}
+
+					manager.alterarModeloObjetoSelecionado(modeloSelecionadoIt->second);
 					break;
 
 				case SDLK_b:

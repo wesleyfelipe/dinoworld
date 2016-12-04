@@ -112,3 +112,12 @@ void Manager::rotacionarObjetoSelecionadoParaEsquerda() {
 	}
 }
 
+void Manager::alterarModeloObjetoSelecionado(Asset a) {
+	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
+		a.SetPos(this->getSelectedObject().GetPos());
+		a.SetRot(glm::vec3(a.getRot().x, this->getSelectedObject().getRot().y, a.getRot().z));
+		a.SetScale(this->getSelectedObject().getScale());
+		this->ObjectList[this->selectedObjectIndex] = a;
+	}
+}
+
