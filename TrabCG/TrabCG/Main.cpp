@@ -167,9 +167,10 @@ int main(int argc, char** argv)
 
 		glm::vec3 front;
 
-		while (SDL_PollEvent(&e))
-		{
+		while (SDL_PollEvent(&e)){
 			int newIndex;
+			Asset objectToInclude;
+
 			switch (e.type) {
 			case SDL_KEYDOWN:
 				//Key Press
@@ -198,6 +199,14 @@ int main(int argc, char** argv)
 						manager.setSelectedObjectIndex(1);
 					else
 						manager.setSelectedObjectIndex(newIndex);
+					break;
+
+				case SDLK_m:
+					objectToInclude = modelos.at(modelos_enum::brachiosaurus);
+					objectToInclude.SetPos(glm::vec3(camera.position().x, 0.1, camera.position().z + 10.0));
+					objectToInclude.SetShader(&shader);
+					manager.ObjectList.push_back(objectToInclude);
+					manager.setSelectedObjectIndex(manager.ObjectList.size() - 1);
 					break;
 
 				case SDLK_b:
