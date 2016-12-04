@@ -4,6 +4,7 @@
 #include "display.h"
 #include "shader.h"
 #include "Manager.h"
+#include "split.h"
 
 static const int DISPLAY_WIDTH = 800;
 static const int DISPLAY_HEIGHT = 600;
@@ -19,9 +20,17 @@ Camera camera(glm::vec3(0, 3, -10), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY
 
 void mouse_callback(double xpos, double ypos);
 
-enum modelos_enum { chao, brachiosaurus, triceratops, trex, spinosaurus, ankylosaurus, ouranosaurus};
-std::map<modelos_enum, Asset> modelos;
-std::map<modelos_enum, Asset>::iterator modeloSelecionadoIt;
+enum modelos_enum { 
+	chao = 0, 
+	brachiosaurus = 1, 
+	triceratops = 2, 
+	trex = 3, 
+	spinosaurus = 4, 
+	ankylosaurus = 5, 
+	ouranosaurus = 6
+};
+std::map<int, Asset> modelos;
+std::map<int, Asset>::iterator modeloSelecionadoIt;
 
 Asset initModel(Manager manager, Shader *shader, std::string objPath, std::string texturePath, glm::vec3 rotation, glm::vec3 scale) {
 	Asset temp = manager.BuildObject(objPath, texturePath, texturePath, shader);
@@ -70,18 +79,52 @@ void initModelos(Manager manager, Shader *shader) {
 	modeloSelecionadoIt++;
 }
 
+Manager initCenaFromFile(std::string filePath, Manager manager, Shader *shader) {
+	std::ifstream file;
+	file.open(filePath.c_str());
+
+	std::string line;
+	if (file.is_open()) {
+
+		while (file.good()) {
+
+			getline(file, line);
+			vector<std::string> tokens = split(line, ' ');
+
+			Asset tempModel = modelos.at(atoi(tokens[0].c_str()));
+
+			tempModel.SetPos(glm::vec3(atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())));
+			tempModel.SetRot(glm::vec3(atof(tokens[4].c_str()), atof(tokens[5].c_str()), atof(tokens[6].c_str())));
+			tempModel.SetScale(glm::vec3(atof(tokens[7].c_str()), atof(tokens[8].c_str()), atof(tokens[9].c_str())));
+
+			tempModel.SetShader(shader);
+			manager.ObjectList.push_back(tempModel);
+
+		}
+
+	} else {
+		std::cerr << "Unable to load cena: " << filePath << std::endl;
+	}
+	return manager;
+}
+
+void salvarCena(Maanger manager) {
+
+}
+
 #undef main
-int main(int argc, char** argv)
-{
-	Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "OpenGL");
+int main(int argc, char** argv) {
+
+	Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "DinoWorld");
 
 	Shader shader("../res/basicShader");
 
 	Manager manager;
 
 	initModelos(manager, &shader);
+	manager = initCenaFromFile("../res/cena.txt", manager, &shader);
 
-	Asset chao = modelos.at(modelos_enum::chao);
+	/** Asset chao = modelos.at(modelos_enum::chao);
 	manager.ObjectList.push_back(chao);
 
 	Asset brachiosaurus = modelos.at(modelos_enum::brachiosaurus);
@@ -107,7 +150,7 @@ int main(int argc, char** argv)
 
 	Asset ouranosaurus = modelos.at(modelos_enum::ouranosaurus);
 	ouranosaurus.SetPos(glm::vec3(-2, 0.1, 1));
-	manager.ObjectList.push_back(ouranosaurus);
+	manager.ObjectList.push_back(ouranosaurus); */
 
 
 	//manager.CreateObject("../res/ouranosaurus/oran.obj", "../res/ouranosaurus/ouran.png", "../res/ouranosaurus/ouran.png", &shader);
@@ -199,7 +242,7 @@ int main(int argc, char** argv)
 					modeloSelecionadoIt = modelos.begin()++;
 					if (newIndex < 1) 
 						manager.setSelectedObjectIndex(1);
-					 else if (newIndex >= manager.ObjectList.size())
+					else if (newIndex >= manager.ObjectList.size())
 						manager.setSelectedObjectIndex(1);
 					else
 						manager.setSelectedObjectIndex(newIndex);
@@ -301,6 +344,7 @@ int main(int argc, char** argv)
 
 				case SDLK_ESCAPE:
 					isRunning = false;
+					salvarCena(manager);
 					break;
 
 				default:
@@ -319,6 +363,7 @@ int main(int argc, char** argv)
 				break;
 			case SDL_QUIT:
 				isRunning = false;
+				salvarCena(manager);
 				break;
 			default:
 				break;

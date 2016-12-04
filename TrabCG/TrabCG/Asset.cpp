@@ -14,6 +14,7 @@ void Asset::SetMesh(const std::string& meshPath)
 	std::string name = meshPath.substr(meshPath.find_last_of('/') + 1, meshPath.find_last_of('.') - 1);
 
 	std::cout << name;
+	std::cout << "\n";
 
 	this->m_mesh = new Mesh(meshPath);
 }

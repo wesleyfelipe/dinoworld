@@ -119,5 +119,5 @@ void Manager::alterarModeloObjetoSelecionado(Asset a) {
 		a.SetScale(this->getSelectedObject().getScale());
 		this->ObjectList[this->selectedObjectIndex] = a;
 	}
-}
+} 
 
