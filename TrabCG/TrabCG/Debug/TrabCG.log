@@ -1,18 +1,12 @@
-﻿  Main.cpp
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(159): warning C4244: '=': conversion from 'GLuint' to 'GLfloat', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(161): warning C4244: 'initializing': conversion from 'GLint' to 'GLfloat', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(162): warning C4244: 'initializing': conversion from 'GLint' to 'GLfloat', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(201): warning C4018: '>=': signed/unsigned mismatch
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(270): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(278): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(287): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(295): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(337): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(341): warning C4018: '<': signed/unsigned mismatch
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(359): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(360): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(361): warning C4244: '=': conversion from 'double' to 'GLint', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(362): warning C4244: '=': conversion from 'double' to 'GLint', possible loss of data
-c:\users\wesle\documents\projetos\trabalho comp graf gb\trabalho cg gb\trabcg\trabcg\main.cpp(364): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-  TrabCG.vcxproj -> C:\Users\wesle\Documents\Projetos\Trabalho Comp Graf GB\Trabalho CG GB\TrabCG\Debug\TrabCG.exe
-  TrabCG.vcxproj -> C:\Users\wesle\Documents\Projetos\Trabalho Comp Graf GB\Trabalho CG GB\TrabCG\Debug\TrabCG.pdb (Partial PDB)
+﻿  obj_loader.cpp
+c:\workspace\unisinos\computacaografica\gb\dinoworld\trabcg\trabcg\obj_loader.cpp(371): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  Compiling...
+  mesh.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Object.cpp
+  Manager.cpp
+  Main.cpp
+  TrabCG.vcxproj -> C:\Workspace\Unisinos\ComputacaoGrafica\GB\dinoworld\TrabCG\Debug\TrabCG.exe
+  TrabCG.vcxproj -> C:\Workspace\Unisinos\ComputacaoGrafica\GB\dinoworld\TrabCG\Debug\TrabCG.pdb (Partial PDB)

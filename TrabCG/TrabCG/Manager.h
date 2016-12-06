@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <GL/glew.h>
-#include "Asset.h"
+#include "Object.h"
 #include "camera.h"
 #include <vector>
 
@@ -14,18 +14,18 @@ public:
 	~Manager();
 
 	std::string resourcePath;
-	std::vector<Asset> ObjectList;
+	std::vector<Object> ObjectList;
 	GLint currentAssetIndex;
 
 	void CreateObject(std::string meshPath, std::string diffPath, std::string specPath, Shader* shader);
-	Asset BuildObject(std::string meshPath, std::string diffPath, std::string specPath, Shader* shader);
+	Object BuildObject(std::string meshPath, std::string diffPath, std::string specPath, Shader* shader);
 
 	void DrawObjects(const Camera& camera);
 
 	int getSelectedObjectIndex();
 	void setSelectedObjectIndex(int selectedObjectIndex);
 
-	Asset getSelectedObject();
+	Object getSelectedObject();
 
 	void removeSelectedObject();
 
@@ -37,7 +37,7 @@ public:
 	void moverObjetoSelecionadoParaTras();
 	void rotacionarObjetoSelecionadoParaDireita();
 	void rotacionarObjetoSelecionadoParaEsquerda();
-	void alterarModeloObjetoSelecionado(Asset a);
+	void alterarModeloObjetoSelecionado(Object a);
 
 private:
 	int selectedObjectIndex;

@@ -3,12 +3,15 @@
 Shader::Shader(const std::string& fileName)
 {
 	m_program = glCreateProgram();
+	//Carrega os Shaders, retornando o indentificador gerado para eles pelo proprio glw
 	m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
 	m_shaders[1] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
 
+	//"Atacha" os shaders
 	for (unsigned int i = 0; i < NUM_SHADER; i++)
 		glAttachShader(m_program, m_shaders[i]);
 
+	//Identifica os atribuitos definidos no shader para utilizar no programa
 	glBindAttribLocation(m_program, 0, "position");
 	glBindAttribLocation(m_program, 1, "texCoord");
 	glBindAttribLocation(m_program, 2, "normal");

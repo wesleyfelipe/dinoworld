@@ -19,9 +19,9 @@ void Manager::CreateObject(std::string meshPath, std::string diffPath, std::stri
 	this->ObjectList.push_back(BuildObject(meshPath, diffPath, specPath, shader));
 }
 
-Asset Manager::BuildObject(std::string meshPath, std::string diffPath, std::string specPath, Shader* shader)
+Object Manager::BuildObject(std::string meshPath, std::string diffPath, std::string specPath, Shader* shader)
 {
-	Asset tempAsset;
+	Object tempAsset;
 
 	tempAsset.id = ObjectList.size();
 
@@ -39,7 +39,7 @@ Asset Manager::BuildObject(std::string meshPath, std::string diffPath, std::stri
 
 void Manager::DrawObjects(const Camera& camera)
 {
-	for each (Asset object in this->ObjectList)
+	for each (Object object in this->ObjectList)
 	{
 		object.Draw(camera);
 	}
@@ -53,7 +53,7 @@ int Manager::getSelectedObjectIndex() {
 	return this->selectedObjectIndex;
 }
 
-Asset Manager::getSelectedObject() {
+Object Manager::getSelectedObject() {
 	return this->ObjectList.at(this->selectedObjectIndex);
 }
 
@@ -112,7 +112,7 @@ void Manager::rotacionarObjetoSelecionadoParaEsquerda() {
 	}
 }
 
-void Manager::alterarModeloObjetoSelecionado(Asset a) {
+void Manager::alterarModeloObjetoSelecionado(Object a) {
 	if (this->selectedObjectIndex >= 0 && this->selectedObjectIndex < this->ObjectList.size()) {
 		a.SetPos(this->getSelectedObject().GetPos());
 		a.SetRot(glm::vec3(a.getRot().x, this->getSelectedObject().getRot().y, a.getRot().z));

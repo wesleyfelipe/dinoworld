@@ -8,7 +8,7 @@
 struct OBJIndex
 {
 	unsigned int vertexIndex;
-	unsigned int uvIndex;
+	unsigned int textureMappingIndex;
 	unsigned int normalIndex;
 
 	bool operator<(const OBJIndex& r) const { return vertexIndex < r.vertexIndex; };
@@ -30,7 +30,7 @@ class OBJModel
 public:
 	std::vector<OBJIndex> OBJIndices;
 	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec2> uvs;
+	std::vector<glm::vec2> textureMappings;
 	std::vector<glm::vec3> normals;
 	bool hasUVs;
 	bool hasNormals;

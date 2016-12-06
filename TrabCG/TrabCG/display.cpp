@@ -19,7 +19,7 @@ Display::Display(int width, int height, const std::string& title)
 
 	m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
 	m_glContext = SDL_GL_CreateContext(m_window);
-
+	//Inicia a glew E verifica se conseguiu inicializa-lá
 	GLenum res = glewInit();
 	if (res != GLEW_OK)
 	{
@@ -30,6 +30,7 @@ Display::Display(int width, int height, const std::string& title)
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	previous_seconds = 0;
 }
 
 Display::~Display()
@@ -48,4 +49,19 @@ void Display::Clear(float r, float g, float b, float a)
 void Display::SwapBuffers()
 {
 	SDL_GL_SwapWindow(m_window);
+}
+
+void Display::updateFPS()
+{
+	double current_seconds = SDL_GetTicks();
+	double elapsed_seconds = current_seconds - previous_seconds;
+	if (elapsed_seconds > 250) {
+		char tmp[256];
+		double fps = (double)frame_count / elapsed_seconds;
+		sprintf(tmp, "Jurassic Park - PFS: %.2f", fps);
+		SDL_SetWindowTitle(m_window, tmp);
+		previous_seconds = current_seconds;
+	}
+	frame_count++;
+	
 }

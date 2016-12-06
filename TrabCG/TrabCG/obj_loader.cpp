@@ -57,7 +57,7 @@ OBJModel::OBJModel(const std::string & fileName)
 			{
 			case 'v':
 				if (lineCStr[1] == 't')
-					this->uvs.push_back(ParseOBJVec2(line));
+					this->textureMappings.push_back(ParseOBJVec2(line));
 				else if (lineCStr[1] == 'n')
 					this->normals.push_back(ParseOBJVec3(line));
 				else if (lineCStr[1] == ' ' || lineCStr[1] == '\t')
@@ -102,7 +102,7 @@ IndexedModel OBJModel::ToIndexedModel()
 		glm::vec3 currentNormal;
 
 		if (hasUVs)
-			currentTexCoord = uvs[currentIndex->uvIndex];
+			currentTexCoord = textureMappings[currentIndex->textureMappingIndex];
 		else
 			currentNormal = glm::vec3(0, 0, 0);
 
@@ -190,7 +190,7 @@ unsigned int OBJModel::FindLastVertexIndex(const std::vector<OBJIndex*>& indexLo
 
 				if (possibleIndex->vertexIndex != currentIndex->vertexIndex)
 					break;
-				else if ((!hasUVs || possibleIndex->uvIndex == currentIndex->uvIndex)
+				else if ((!hasUVs || possibleIndex->textureMappingIndex == currentIndex->textureMappingIndex)
 					&& (!hasNormals || possibleIndex->normalIndex == currentIndex->normalIndex))
 				{
 					glm::vec3 currentPosition = vertices[currentIndex->vertexIndex];
@@ -198,7 +198,7 @@ unsigned int OBJModel::FindLastVertexIndex(const std::vector<OBJIndex*>& indexLo
 					glm::vec3 currentNormal;
 
 					if (hasUVs)
-						currentTexCoord = uvs[currentIndex->uvIndex];
+						currentTexCoord = textureMappings[currentIndex->textureMappingIndex];
 					else
 						currentTexCoord = glm::vec2(0, 0);
 
@@ -319,7 +319,7 @@ OBJIndex OBJModel::ParseOBJIndex(const std::string & token, bool * hasUVs, bool 
 
 	OBJIndex result;
 	result.vertexIndex = ParseOBJIndexValue(token, vertIndexStart, vertIndexEnd);
-	result.uvIndex = 0;
+	result.textureMappingIndex = 0;
 	result.normalIndex = 0;
 
 	if (vertIndexEnd >= tokenLength)
@@ -328,7 +328,7 @@ OBJIndex OBJModel::ParseOBJIndex(const std::string & token, bool * hasUVs, bool 
 	vertIndexStart = vertIndexEnd + 1;
 	vertIndexEnd = FindNextChar(vertIndexStart, tokenString, tokenLength, '/');
 
-	result.uvIndex = ParseOBJIndexValue(token, vertIndexStart, vertIndexEnd);
+	result.textureMappingIndex = ParseOBJIndexValue(token, vertIndexStart, vertIndexEnd);
 	*hasUVs = true;
 
 	if (vertIndexEnd >= tokenLength)

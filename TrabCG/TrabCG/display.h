@@ -11,6 +11,9 @@ public:
 
 	void Clear(float r, float g, float b, float a);
 	void SwapBuffers();
+	void updateFPS();
+	double previous_seconds;
+	int frame_count;
 
 	virtual ~Display();
 	SDL_Surface* loadSurface(std::string path);

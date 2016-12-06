@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "display.h"
 #include "shader.h"
 #include "Manager.h"
@@ -17,6 +18,8 @@ GLint lastX = 400, lastY = 300;
 GLfloat yaw;
 GLfloat pitch;
 Camera camera(glm::vec3(0, 3, -10), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.01f, 1000.0f);
+double previous_seconds;
+int frame_count;
 
 void mouse_callback(double xpos, double ypos);
 
@@ -31,54 +34,55 @@ enum modelos_enum {
 	albertossaurus = 7,
 	gallimimus = 8
 };
-std::map<int, Asset> modelos;
-std::map<int, Asset>::iterator modeloSelecionadoIt;
+std::map<int, Object> modelos;
+std::map<int, Object>::iterator modeloSelecionadoIt;
 
-Asset initModel(modelos_enum idModelo, Manager manager, Shader *shader, std::string objPath, std::string texturePath, glm::vec3 rotation, glm::vec3 scale) {
-	Asset temp = manager.BuildObject(objPath, texturePath, texturePath, shader);
+Object initModel(modelos_enum idModelo, Manager manager, Shader *shader, std::string objPath, std::string texturePath, glm::vec3 rotation, glm::vec3 scale) {
+	Object temp = manager.BuildObject(objPath, texturePath, texturePath, shader);
 	temp.SetRot(rotation);
 	temp.SetScale(scale);
 	temp.id = idModelo;
 	return temp;
 }
 
-Asset initChaoModelo(Manager manager, Shader *shader) {
+Object initChaoModelo(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::chao, manager, shader, "../res/chao/plane.obj", "../res/chao/grass.jpg", glm::vec3(0,0,0), glm::vec3(10, 1, 10));
 }
 
-Asset initBrachiosaurusModelo(Manager manager, Shader *shader) {
+Object initBrachiosaurusModelo(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::brachiosaurus, manager, shader, "../res/brachiosaurus/brac.obj", "../res/brachiosaurus/brach.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
-Asset initTriceratopsModelo(Manager manager, Shader *shader) {
+Object initTriceratopsModelo(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::triceratops, manager, shader, "../res/triceratops/trike.obj", "../res/triceratops/trike.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
-Asset initTrexModelo(Manager manager, Shader *shader) {
+Object initTrexModelo(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::trex, manager, shader, "../res/trex/trex.obj", "../res/trex/Trex.png", glm::vec3(0, 3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
-Asset initSpinosaurusModelo(Manager manager, Shader *shader) {
+Object initSpinosaurusModelo(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::spinosaurus, manager, shader, "../res/spinosaurus/spino.obj", "../res/spinosaurus/Spino.png", glm::vec3(0, 3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
-Asset initAnkylosaurusModelo(Manager manager, Shader *shader) {
+Object initAnkylosaurusModelo(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::ankylosaurus, manager, shader, "../res/ankylosaurus/anky.obj", "../res/ankylosaurus/Anky.png", glm::vec3(0, 3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
-Asset initOuranosaurusModelo(Manager manager, Shader *shader) {
+Object initOuranosaurusModelo(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::ouranosaurus, manager, shader, "../res/ouranosaurus/oran.obj", "../res/ouranosaurus/ouran.png", glm::vec3(-1.5, 3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
-Asset initAlbertosaurus(Manager manager, Shader *shader) {
+Object initAlbertosaurus(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::albertossaurus, manager, shader, "../res/albertosaurus/albert.obj", "../res/albertosaurus/am.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
-Asset initGallimimus(Manager manager, Shader *shader) {
+Object initGallimimus(Manager manager, Shader *shader) {
 	return initModel(modelos_enum::gallimimus, manager, shader, "../res/gallimimus/galli.obj", "../res/gallimimus/gali.png", glm::vec3(-1.5, -3, 0), glm::vec3(0.5, 0.5, 0.5));
 }
 
 void initModelos(Manager manager, Shader *shader) {
+	//Cria os modelos possíveis de objetos, inclusive o chão
 	modelos[modelos_enum::chao] = initChaoModelo(manager, shader);
 	modelos[modelos_enum::brachiosaurus] = initBrachiosaurusModelo(manager, shader);
 	modelos[modelos_enum::triceratops] = initTriceratopsModelo(manager, shader);
@@ -106,14 +110,16 @@ Manager initCenaFromFile(std::string filePath, Manager manager, Shader *shader) 
 			vector<std::string> tokens = split(line, ' ');
 
 			if (tokens.size() == 10) {
+				//Obtem o objeto pelo id salvo no txt
+				Object tempModel = modelos.at(atoi(tokens[0].c_str()));
 
-				Asset tempModel = modelos.at(atoi(tokens[0].c_str()));
-
+				//Seta as propriedades de posição, rotação e escala
 				tempModel.SetPos(glm::vec3(atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())));
 				tempModel.SetRot(glm::vec3(atof(tokens[4].c_str()), atof(tokens[5].c_str()), atof(tokens[6].c_str())));
 				tempModel.SetScale(glm::vec3(atof(tokens[7].c_str()), atof(tokens[8].c_str()), atof(tokens[9].c_str())));
 
 				tempModel.SetShader(shader);
+				//Adicona na lista de objetos que serão desenhados
 				manager.ObjectList.push_back(tempModel);
 			}
 
@@ -128,7 +134,7 @@ Manager initCenaFromFile(std::string filePath, Manager manager, Shader *shader) 
 void salvarCena(Manager manager) {
 	ofstream file;
 	file.open("../res/cena.txt");
-	for each (Asset object in manager.ObjectList){
+	for each (Object object in manager.ObjectList){
 		file << object.id << " " << object.GetPos().x << " " << object.GetPos().y << " " << object.GetPos().z << " ";
 		file << object.getRot().x << " " << object.getRot().y << " " << object.getRot().z << " ";
 		file << object.getScale().x << " " << object.getScale().y << " " << object.getScale().z << "\n";
@@ -139,13 +145,14 @@ void salvarCena(Manager manager) {
 #undef main
 int main(int argc, char** argv) {
 
-	Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "DinoWorld");
+	Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "Jurassic Park");
 
 	Shader shader("../res/basicShader");
 
 	Manager manager;
 
 	initModelos(manager, &shader);
+	//Inicia a cena, carregando do arquivo o que foi salvo. Retorna o gerenciador de objetos
 	manager = initCenaFromFile("../res/cena.txt", manager, &shader);
 
 	SDL_Event e;
@@ -154,6 +161,7 @@ int main(int argc, char** argv) {
 	float counter = 0.0f;
 	while (isRunning)
 	{
+		display.updateFPS();
 		GLuint currentFrame = SDL_GetTicks();
 		deltaTime = (currentFrame - lastFrame) / 1000;
 		lastFrame = currentFrame;
@@ -171,7 +179,7 @@ int main(int argc, char** argv) {
 
 		while (SDL_PollEvent(&e)){
 			int newIndex;
-			Asset objectToInclude;
+			Object objectToInclude;
 
 			switch (e.type) {
 			case SDL_KEYDOWN:
@@ -205,10 +213,14 @@ int main(int argc, char** argv) {
 					break;
 
 				case SDLK_m:
+					//Obtem um objeto fixo da lista de objetos
 					objectToInclude = modelos.at(modelos_enum::brachiosaurus);
+					//Posicione ele onde estiver a camera
 					objectToInclude.SetPos(glm::vec3(camera.position().x, 0.1, camera.position().z + 10.0));
 					objectToInclude.SetShader(&shader);
+					//Adiciona na lista de objetos da cena
 					manager.ObjectList.push_back(objectToInclude);
+					//Deixa o objeto selecionado
 					manager.setSelectedObjectIndex(manager.ObjectList.size() - 1);
 					break;
 
@@ -327,7 +339,7 @@ int main(int argc, char** argv) {
 		}
 
 		display.Clear(0.0f, 0.0f, 0.09f, 1.0f);
-
+		
 		shader.Bind();
 
 		glm::vec3 lightPos(1.0, 1.0, 1.0);
@@ -339,8 +351,9 @@ int main(int argc, char** argv) {
 		glUniform3f(glGetUniformLocation(shader.Program(), "light.specular"), 1.0, 1.0, 1.0);
 
 		for (int i = 0; i < manager.ObjectList.size(); i++) {
-			Asset object = manager.ObjectList.at(i);
+			Object object = manager.ObjectList.at(i);
 			glUniform1d(glGetUniformLocation(shader.Program(), "selected"), i == manager.getSelectedObjectIndex());
+			//Desenha os objetos na tela
 			object.Draw(camera);
 		}
 

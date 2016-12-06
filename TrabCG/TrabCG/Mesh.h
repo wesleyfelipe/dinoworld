@@ -54,8 +54,8 @@ private:
 
 	void InitMesh(const IndexedModel& model);
 
-	GLuint m_vertexArrayObject;
-	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
+	GLuint VAO;
+	GLuint VBOs[NUM_BUFFERS];
 	unsigned int m_drawCount;
 
 };
