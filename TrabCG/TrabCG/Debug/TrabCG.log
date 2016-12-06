@@ -1,12 +1,4 @@
 ﻿  obj_loader.cpp
-c:\workspace\unisinos\computacaografica\gb\dinoworld\trabcg\trabcg\obj_loader.cpp(371): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
-  Compiling...
-  mesh.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  Object.cpp
-  Manager.cpp
-  Main.cpp
-  TrabCG.vcxproj -> C:\Workspace\Unisinos\ComputacaoGrafica\GB\dinoworld\TrabCG\Debug\TrabCG.exe
-  TrabCG.vcxproj -> C:\Workspace\Unisinos\ComputacaoGrafica\GB\dinoworld\TrabCG\Debug\TrabCG.pdb (Partial PDB)
+c:\users\wesle\documents\projetos\dinoworld\dinoworld\trabcg\trabcg\obj_loader.cpp(371): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  TrabCG.vcxproj -> C:\Users\wesle\Documents\Projetos\dinoWorld\dinoworld\TrabCG\Debug\TrabCG.exe
+  TrabCG.vcxproj -> C:\Users\wesle\Documents\Projetos\dinoWorld\dinoworld\TrabCG\Debug\TrabCG.pdb (Partial PDB)

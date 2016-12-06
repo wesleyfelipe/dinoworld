@@ -34,7 +34,7 @@ void IndexedModel::CalcNormals()
 
 OBJModel::OBJModel(const std::string & fileName)
 {
-	hasUVs = false;
+	hasTextureMappings = false;
 	hasNormals = false;
 	std::ifstream file;
 	file.open(fileName.c_str());
@@ -101,7 +101,7 @@ IndexedModel OBJModel::ToIndexedModel()
 		glm::vec2 currentTexCoord;
 		glm::vec3 currentNormal;
 
-		if (hasUVs)
+		if (hasTextureMappings)
 			currentTexCoord = textureMappings[currentIndex->textureMappingIndex];
 		else
 			currentNormal = glm::vec3(0, 0, 0);
@@ -190,14 +190,14 @@ unsigned int OBJModel::FindLastVertexIndex(const std::vector<OBJIndex*>& indexLo
 
 				if (possibleIndex->vertexIndex != currentIndex->vertexIndex)
 					break;
-				else if ((!hasUVs || possibleIndex->textureMappingIndex == currentIndex->textureMappingIndex)
+				else if ((!hasTextureMappings || possibleIndex->textureMappingIndex == currentIndex->textureMappingIndex)
 					&& (!hasNormals || possibleIndex->normalIndex == currentIndex->normalIndex))
 				{
 					glm::vec3 currentPosition = vertices[currentIndex->vertexIndex];
 					glm::vec2 currentTexCoord;
 					glm::vec3 currentNormal;
 
-					if (hasUVs)
+					if (hasTextureMappings)
 						currentTexCoord = textureMappings[currentIndex->textureMappingIndex];
 					else
 						currentTexCoord = glm::vec2(0, 0);
@@ -210,7 +210,7 @@ unsigned int OBJModel::FindLastVertexIndex(const std::vector<OBJIndex*>& indexLo
 					for (unsigned int j = 0; j < result.positions.size(); j++)
 					{
 						if (currentPosition == result.positions[j]
-							&& ((!hasUVs || currentTexCoord == result.texCoords[j])
+							&& ((!hasTextureMappings || currentTexCoord == result.texCoords[j])
 								&& (!hasNormals || currentNormal == result.normals[j])))
 						{
 							return j;
@@ -240,15 +240,15 @@ void OBJModel::CreateOBJFace(const std::string & line)
 {
 	std::vector<std::string> tokens = SplitString(line, ' ');
 
-	this->OBJIndices.push_back(ParseOBJIndex(tokens[1], &this->hasUVs, &this->hasNormals));
-	this->OBJIndices.push_back(ParseOBJIndex(tokens[2], &this->hasUVs, &this->hasNormals));
-	this->OBJIndices.push_back(ParseOBJIndex(tokens[3], &this->hasUVs, &this->hasNormals));
+	this->OBJIndices.push_back(ParseOBJIndex(tokens[1], &this->hasTextureMappings, &this->hasNormals));
+	this->OBJIndices.push_back(ParseOBJIndex(tokens[2], &this->hasTextureMappings, &this->hasNormals));
+	this->OBJIndices.push_back(ParseOBJIndex(tokens[3], &this->hasTextureMappings, &this->hasNormals));
 
 	if ((int)tokens.size() > 4)
 	{
-		this->OBJIndices.push_back(ParseOBJIndex(tokens[1], &this->hasUVs, &this->hasNormals));
-		this->OBJIndices.push_back(ParseOBJIndex(tokens[3], &this->hasUVs, &this->hasNormals));
-		this->OBJIndices.push_back(ParseOBJIndex(tokens[4], &this->hasUVs, &this->hasNormals));
+		this->OBJIndices.push_back(ParseOBJIndex(tokens[1], &this->hasTextureMappings, &this->hasNormals));
+		this->OBJIndices.push_back(ParseOBJIndex(tokens[3], &this->hasTextureMappings, &this->hasNormals));
+		this->OBJIndices.push_back(ParseOBJIndex(tokens[4], &this->hasTextureMappings, &this->hasNormals));
 	}
 }
 

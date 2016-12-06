@@ -1,7 +1,6 @@
 #include <iostream>
 #include <map>
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "display.h"
 #include "shader.h"
 #include "Manager.h"
@@ -167,7 +166,7 @@ int main(int argc, char** argv) {
 		lastFrame = currentFrame;
 
 		GLfloat xoffset = m_mouseX - lastX;
-		GLfloat yoffset = lastY - m_mouseY; // Reversed since y-coordinates range from bottom to top
+		GLfloat yoffset = lastY - m_mouseY;
 		lastX = m_mouseX;
 		lastY = m_mouseY;
 
